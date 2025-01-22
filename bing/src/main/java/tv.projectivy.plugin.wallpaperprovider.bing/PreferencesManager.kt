@@ -1,4 +1,4 @@
-package tv.projectivy.plugin.wallpaperprovider.sample
+package tv.projectivy.plugin.wallpaperprovider.bing
 
 import android.content.Context
 import android.content.SharedPreferences
@@ -7,6 +7,8 @@ import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import com.google.gson.ToNumberPolicy
 import com.google.gson.reflect.TypeToken
+import java.text.SimpleDateFormat
+import java.util.Date
 
 object PreferencesManager {
     private const val IMAGE_URL_KEY = "image_url_key"
@@ -45,9 +47,14 @@ object PreferencesManager {
             Long::class -> preferences.getLong(key, defaultValue as? Long ?: -1) as T
             else -> throw UnsupportedOperationException("Not yet implemented")
         }
+    fun getCurrentDate():String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        return sdf.format(Date())
+    }
+    val today = getCurrentDate()
 
     var imageUrl: String
-        get() = PreferencesManager[IMAGE_URL_KEY, "https://images.pexels.com/photos/462162/pexels-photo-462162.jpeg"]
+        get() = PreferencesManager[IMAGE_URL_KEY, "http://bing.biturl.top/?resolution=UHD&format=image&index=0&mkt=en-US?$today"]
         set(value) { PreferencesManager[IMAGE_URL_KEY]=value }
 
     fun export(): String {

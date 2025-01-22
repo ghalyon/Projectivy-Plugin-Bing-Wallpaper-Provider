@@ -1,4 +1,4 @@
-package tv.projectivy.plugin.wallpaperprovider.sample
+package tv.projectivy.plugin.wallpaperprovider.bing
 
 import android.app.Service
 import android.content.ContentResolver
@@ -9,6 +9,11 @@ import tv.projectivy.plugin.wallpaperprovider.api.Event
 import tv.projectivy.plugin.wallpaperprovider.api.IWallpaperProviderService
 import tv.projectivy.plugin.wallpaperprovider.api.Wallpaper
 import tv.projectivy.plugin.wallpaperprovider.api.WallpaperType
+import java.net.URL
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.util.Calendar
+import java.util.Date
 
 class WallpaperProviderService: Service() {
 
@@ -22,24 +27,33 @@ class WallpaperProviderService: Service() {
         return binder
     }
 
+    fun getCurrentDate():String{
+        val sdf = SimpleDateFormat("yyyy-MM-dd")
+        return sdf.format(Date())
+    }
 
     private val binder = object : IWallpaperProviderService.Stub() {
         override fun getWallpapers(event: Event?): List<Wallpaper> {
+            var today = getCurrentDate()
+            var plugindate = PreferencesManager.imageUrl.substringAfter("http://bing.biturl.top/?resolution=UHD&format=image&index=0&mkt=en-US?")
+            if(today != plugindate){
+                PreferencesManager.imageUrl = "http://bing.biturl.top/?resolution=UHD&format=image&index=0&mkt=en-US?$today"
+            }
 
             return when (event) {
                 is Event.TimeElapsed -> {
                     // This is where you generate the wallpaper list that will be cycled every x minute
                     return listOf(
                         // DRAWABLE can be served from app drawable/
-                        Wallpaper(getDrawableUri(R.drawable.ic_banner_drawable).toString(), WallpaperType.DRAWABLE),
+                        //Wallpaper(getDrawableUri(R.drawable.ic_banner_drawable).toString(), WallpaperType.DRAWABLE),
                         // IMAGE can be served from app drawable/, local storage or internet
-                        Wallpaper(PreferencesManager.imageUrl, WallpaperType.IMAGE, author = "Pixabay"),
+                        Wallpaper(PreferencesManager.imageUrl, WallpaperType.IMAGE, author = "Bing"),
                         // ANIMATED_DRAWABLE can be served from app drawable/
-                        Wallpaper(getDrawableUri(R.drawable.anim_sample).toString(), WallpaperType.ANIMATED_DRAWABLE),
+                        //Wallpaper(getDrawableUri(R.drawable.anim_sample).toString(), WallpaperType.ANIMATED_DRAWABLE),
                         // LOTTIE can be served from app raw/, local storage or internet
-                        Wallpaper(getDrawableUri(R.raw.gradient).toString(), WallpaperType.LOTTIE),
+                        //Wallpaper(getDrawableUri(R.raw.gradient).toString(), WallpaperType.LOTTIE),
                         // VIDEO can be served from app raw/, local storage or internet (some formats might not be supported, though)
-                        Wallpaper(getDrawableUri(R.raw.light).toString(), WallpaperType.VIDEO)
+                        //Wallpaper(getDrawableUri(R.raw.light).toString(), WallpaperType.VIDEO)
                     )
                 }
 
@@ -57,8 +71,8 @@ class WallpaperProviderService: Service() {
                 is Event.ProgramCardFocused -> emptyList()
                 // When Projectivy enters or exits idle mode
                 is Event.LauncherIdleModeChanged -> {
-                    return if (event.isIdle) { listOf(Wallpaper(getDrawableUri(R.drawable.ic_plugin).toString(), WallpaperType.DRAWABLE)) }
-                        else  emptyList()
+                    return if (event.isIdle) { return listOf(Wallpaper(PreferencesManager.imageUrl, WallpaperType.IMAGE, author = "Bing")) }
+                        else  { emptyList() }
                 }
                 else -> emptyList()  // Returning an empty list won't change the currently displayed wallpaper
             }

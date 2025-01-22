@@ -1,7 +1,7 @@
 # Projectivy Plugin : Wallpaper Provider
 
 This is a sample project for developing a wallpaper provider plugin for Projectivy Launcher.
-- /sample : sample code for the plugin service and its setting activity
+- /bing : sample code for the plugin service and its setting activity
 - /api : api used to communicate with Projectivy through AIDL (don't change it)
 - Version: 1
  

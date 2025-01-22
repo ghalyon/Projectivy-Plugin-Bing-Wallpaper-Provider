@@ -71,7 +71,7 @@
                 android:name="itemsCacheDurationMillis"
                 android:value="@integer/items_cache_duration_millis"/>
 
-            <!-- This sample plugin will receive time_elapsed and launcher_idle_mode_changed events -->
+            <!-- This bing plugin will receive time_elapsed and launcher_idle_mode_changed events -->
             <meta-data
                 android:name="updateMode"
                 android:value="17"/>
