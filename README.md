@@ -1,9 +1,11 @@
 # Projectivy Plugin : Wallpaper Provider
 
-This is a sample project for developing a wallpaper provider plugin for Projectivy Launcher.
-- /bing : sample code for the plugin service and its setting activity
-- /api : api used to communicate with Projectivy through AIDL (don't change it)
-- Version: 1
+This is a fork of the Projectivy Launcher sample wallpaper provider plugin, adapted to fetch images from Bing.
+The Wallpaper is pulled daily using the API in https://github.com/TimothyYe/bing-wallpaper
+
+/bing : code for the plugin service and its setting activity
+/api : api used to communicate with Projectivy through AIDL (don't change it)
+Version: 1
  
 # Usage
 - fork/clone the repo
